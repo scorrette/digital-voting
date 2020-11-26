@@ -2,25 +2,24 @@ from getpass import getpass
 import hashlib
 
 def registration():
-	first_name = input("Enter First Name: ")
-	last_name = input("Enter Last Name: ")
+	f_name = input("Enter First Name: ")
+	l_name = input("Enter Last Name: ")
 	employee_id = input("Enter Employee ID: ")
 
 
 	# check database for user
-	query = "SELECT * FROM Employees WHERE id=employee_id AND f_name=first_name AND l_name=last_name"
+	query = "SELECT * FROM Employees WHERE id=%s AND f_name=%s AND l_name=%s"
 	cursor = connection.cursor()
-	cursor.execute(query)
+	cursor.execute(query, employee_id, f_name, l_name)
 	records = cursor.fetchall()
-	found = false
 
 	# check if user is an employee
-	if records == null:
+	if records == NULL:
 		print("You are not an employee. You cannot register.")
 		return
 
 	# check if user is registered
-	if records["is_registered"] == 1:
+	if records["has_registered"] == 1:
 		print("You are already registered. Please proceed to the login screen.")
 		return
 
