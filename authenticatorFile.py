@@ -8,7 +8,7 @@ import mysql.connector
 class Authenticator:
 
     def __init__(self):
-        self.auth_key = RSA.generate(4096,e=65537)
+        #self.auth_key = RSA.generate(4096,e=65537)
         self.auth_private_key = RSA.importKey(open('auth_private_key.pem').read())
         self.auth_public_key = RSA.importKey(open('auth_public_key.pem').read())
 
