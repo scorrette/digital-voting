@@ -32,8 +32,8 @@ def mainScreen(FirstName,username):
             voteList = np.append(voteList,userVote)
         print("_________________________________________________")
     print("Thanks for Voting!")
-    encryptedVotes = encryptVotes(username,voteList)
-    encryptFinal(encryptedVotes)
+    message = encryptVotes(username,voteList)
+    encryptFinal(message)
 
 
 def getCandidates():
@@ -68,16 +68,17 @@ def getPosition():
 
 def encryptVotes(userID,votes):
     new_key = RSA.importKey(open('counter_public_key.pem').read())
-    encryptedVotes = []
+    voteString = []
     for vote in votes:
-        auth_cipher = PKCS1_OAEP.new(new_key)
         preVote = str(vote)
-        cipherVote = auth_cipher.encrypt(preVote.encode("utf-8"))
-        preID = userID + ",,,,,"
-        ID = preID.encode("utf-8")
-        message = ID + cipherVote
-        encryptedVotes = np.append(encryptedVotes,message)
-    return encryptedVotes
+        voteString = np.append(voteString,preVote)
+    joinedVotes = ',,,,,'.join(voteString)
+    counter_cipher = PKCS1_OAEP.new(new_key)
+    cipherVote = counter_cipher.encrypt(joinedVotes.encode("utf-8"))
+    preID = userID + ",,,,,"
+    ID = preID.encode("utf-8")
+    message = ID + cipherVote
+    return message
 
 
 def encryptFinal(votes):
