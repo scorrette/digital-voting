@@ -32,7 +32,9 @@ def mainScreen(FirstName,username):
             voteList = np.append(voteList,userVote)
         print("_________________________________________________")
     print("Thanks for Voting!")
-    encryptVotes(username,voteList)
+    encryptedVotes = encryptVotes(username,voteList)
+    encryptFinal(encryptedVotes)
+
 
 def getCandidates():
     mydb=mysql.connector.connect(
@@ -76,5 +78,13 @@ def encryptVotes(userID,votes):
         message = ID + cipherVote
         encryptedVotes = np.append(encryptedVotes,message)
     return encryptedVotes
+
+
+def encryptFinal(votes):
+    authenticator_public_key = RSA.importKey(open('auth_public_key.pem').read())
+    counter_cipher = PKCS1_OAEP.new(authenticator_public_key)
+    encrypted_ballot = counter_cipher.encrypt(votes)
+    with open("auth_ballot.ballot", "wb") as f:
+        f.write(encrypted_ballot)
 
 mainScreen("emo66","123")
