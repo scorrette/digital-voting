@@ -65,9 +65,7 @@ def getPosition():
     return result
 
 def encryptVotes(userID,votes):
-    new_key = RSA.generate(1024,e=65537)
-    private_key = new_key.exportKey("PEM")
-    public_key = new_key.publickey().exportKey("PEM")
+    new_key = RSA.importKey(open('counter_public_key.pem').read())
     encryptedVotes = []
     for vote in votes:
         auth_cipher = PKCS1_OAEP.new(new_key)
