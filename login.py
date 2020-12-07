@@ -1,40 +1,50 @@
-# Digital Voting Project
-#   Login Screen
-#
-#
-# Author of login.py: Kris Caceres
+from getpass import getpass
+import hashlib
+import mysql.connector
 
 
-# Prompt users to put their credentials (user,pw)
-# Verify user identity by comparing their credentials with the stored ones in softawre's database
-#   if successful, prompt user to 'Main Screen';
-#   otherwise, display error message "credentials incorrect, try again"
-import getpass
+def login():
 
-def prompt_login():
-    # prompt users for credentials
-    # call verify function
-    # send user to main screen if successful
-    user = getpass.getuser()
-    try:
-        p = getpass.getpass()
-    except Exception as error:
-        print('Error', error)
-    else:
-        print('Password entered')
-        # maybe implement verification here
-        verify_login
+	connection = mysql.connector.connect(
+	    host = 'ss3010.rutgers-sci.domains',
+	    user = 'ssrutge4_user1',
+	    password = "yourpassword",
+	    database = 'ssrutge4_ECE424'
+	)
 
+	employee_id = input("Enter Employee ID: ")
 
-def verify_login(user, pw):
-    # pass credentials here
-    # check against database
-    # send boolean and username to main screen?
+	# check if user exists
+	query = "SELECT * FROM Employees WHERE id=%s"
+	cursor = connection.cursor()
+	cursor.execute(query, employee_id)
+	records = cursor.fetchone()
 
+	while records == NULL:
+		print("Employee ID is not in the system. Please retype it.")
+		employee_id = input("Enter Employee ID: ")
 
+	# ask for password and hash it
+	password = input("Enter Password: ")
+	hashed_pass = hashlib.sha256()
+	hashed_pass.update(password)
+	hashed_pass.digest()
 
-    return True
+	# get corresponding hashed password from database
+	stored_pass = records[3]
 
+	# check if passwords match
+	while hashed_pass.hexdigest() != stored_pass:
+		print("Incorrect Password. Please retype your password.")
+		password = getpass("Enter Password: ")
+		hashed_pass = hashlib.sha256()
+		hashed_pass.update(password)
+		hashed_pass.digest()
 
-# info passed to main scrreen is user id (username) and that might be it
-# clear password
+	# get first name
+	first_name = records[1]
+
+	print("Login Successful!")
+	cursor.close()
+	connection.close()
+	return employee_id, first_name
