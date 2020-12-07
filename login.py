@@ -36,13 +36,16 @@ def login():
 	# check if passwords match
 	count = 0
 	while password != confirm_pass:
-		print("Passwords do not match. Please retype your password.")
-		password = getpass("Enter Password: ")
-		confirm_pass = getpass("Confirm Password: ")
-
-		count+=1
 		if count == 2:
 			print("3 Incorrect Password Attempts. You are locked out of your account.")
+			
+		print("Passwords do not match. Please retype your password.")
+		password = input("Enter Password: ")
+		hashed_pass = hashlib.sha256()
+		hashed_pass.update(password)
+		hashed_pass.digest()
+
+		count+=1
 
 
 	# get first name
