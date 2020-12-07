@@ -38,6 +38,7 @@ def login():
 	while password != confirm_pass:
 		if count == 2:
 			print("3 Incorrect Password Attempts. You are locked out of your account.")
+			return
 			
 		print("Passwords do not match. Please retype your password.")
 		password = input("Enter Password: ")
