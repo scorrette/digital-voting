@@ -1,14 +1,23 @@
 from getpass import getpass
 import hashlib
+import mysql.connector
 
 def registration():
+	
+	connection = mysql.connector.connect(
+	    host = 'ss3010.rutgers-sci.domains',
+	    user = 'ssrutge4_user1',
+	    password = "yourpassword",
+	    database = 'ssrutge4_ECE424'
+	)
+	
 	f_name = input("Enter First Name: ")
 	l_name = input("Enter Last Name: ")
 	employee_id = input("Enter Employee ID: ")
 
 
 	# check database for user
-	query = "SELECT * FROM Employees WHERE id=%s AND f_name=%s AND l_name=%s"
+	query = "SELECT has_registered FROM Employees WHERE id=%s AND f_name=%s AND l_name=%s"
 	cursor = connection.cursor()
 	cursor.execute(query, employee_id, f_name, l_name)
 	records = cursor.fetchone()
@@ -19,7 +28,7 @@ def registration():
 		return
 
 	# check if user is registered
-	if records["has_registered"] == 1:
+	if records[0] == 1:
 		print("You are already registered. Please proceed to the login screen.")
 		return
 
@@ -43,4 +52,6 @@ def registration():
 
 
 	print("Registration Successful!")
+	cursor.close()
+	connection.close()
 	return
