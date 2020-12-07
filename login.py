@@ -6,10 +6,10 @@ import mysql.connector
 def login():
 
 	connection = mysql.connector.connect(
-	    host = 'ss3010.rutgers-sci.domains',
-	    user = 'ssrutge4_user1',
-	    password = "yourpassword",
-	    database = 'ssrutge4_ECE424'
+	    host='ss3010.rutgers-sci.domains',
+            user='ssrutge4_user1',
+            password="qwer1234qwer",
+            database='ssrutge4_ECE424'
 	)
 
 	employee_id = input("Enter Employee ID: ")
