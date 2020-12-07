@@ -11,7 +11,7 @@ def registration():
 	query = "SELECT * FROM Employees WHERE id=%s AND f_name=%s AND l_name=%s"
 	cursor = connection.cursor()
 	cursor.execute(query, employee_id, f_name, l_name)
-	records = cursor.fetchall()
+	records = cursor.fetchone()
 
 	# check if user is an employee
 	if records == NULL:
@@ -37,8 +37,8 @@ def registration():
 	hashed_pass.digest()
 
 	# save password in database
-	pass_query = "UPDATE Employees WHERE password=%s"
-	cursor.execute(pass_query, hashed_pass.hexdigest())
+	pass_query = "UPDATE Employees SET password=%s WHERE id=%s"
+	cursor.execute(pass_query, hashed_pass.hexdigest(), employee_id)
 	connection.commit()
 
 
