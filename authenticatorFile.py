@@ -28,7 +28,7 @@ class Authenticator:
         mydb = mysql.connector.connect(
             host='ss3010.rutgers-sci.domains',
             user='ssrutge4_user1',
-            password="yourpassword",
+            password="qwer1234qwer",
             database='ssrutge4_ECE424'
         )
         dbCursor = mydb.cursor()
