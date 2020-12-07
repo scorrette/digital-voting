@@ -35,7 +35,7 @@ def login():
 
 	# check if passwords match
 	count = 0
-	while password != confirm_pass:
+	while password != stored_pass:
 		if count == 2:
 			print("3 Incorrect Password Attempts. You are locked out of your account.")
 			return
