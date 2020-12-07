@@ -3,12 +3,13 @@
 
 import os
 import binascii
-from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
+
 from Crypto.Hash import SHA256 
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-from base64 import b64encode,b64decode
+from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
 
+import mysql.connector
 
 
 def vote_Counter():
@@ -16,8 +17,28 @@ def vote_Counter():
     ver_signature = ver_Signature()
     
     if (ver_signature):
-        dec_ballot = dec_Ballot()
+         dec_ballot = dec_Ballot()   
+    else:
+         return False
+    
+    decBallot = dec_ballot.split(b',,,,,')
+    
+    mydb = mysql.connector.connect(
+    host = 'ss3010.rutgers-sci.domains',
+    user = 'ssrutge4_user1',
+    password = "qwer1234qwer",
+    database = 'ssrutge4_ECE424'
+    )
         
+    dbCursor = mydb.cursor()
+    
+    for ballot in decBallot:
+        
+        queryString = "select vote_count from Candidate where id = " + ballot
+        dbCursor.execute(queryString)
+        result = dbCursor.fetchone()
+        queryString = "Update Candidate SET vote_count = vote_count + 1 where id = " + ballot
+       
         
 
 def ver_Signature():
@@ -25,12 +46,12 @@ def ver_Signature():
          ######## Receive Public key from Authenticator ##########
     auth_public_key = RSA.importKey(open('auth_public_key.pem').read())
           
-                ###### Receive Signature from Authenticator #######
+            ###### Receive Signature from Authenticator #######
     #open signature file
     with open("signature.txt", "rb") as f:
         signature = f.read()
         
-    #Decrypt the ballot and then find hash of it
+    #Decrypt the ballot
     dec_ballot = dec_Ballot()
     
     #create hash of the decrypted ballot
