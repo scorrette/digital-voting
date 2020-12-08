@@ -22,7 +22,7 @@ print('Welcome to the ECE Voting application!\n')
 
 choice = selection_menu()
 
-while choice != 1 or choice != 2 or choice != 3:
+while choice != 1 and choice != 2 and choice != 3:
     choice = input('That is not an option. Try again: ')
 
 if choice == 1:

@@ -77,7 +77,3 @@ def dec_Ballot():
     plain_ballot  = counter_cipher.decrypt(ballot)
     
     return(plain_ballot)
-  
-       
-#main test
-vote_Counter()
