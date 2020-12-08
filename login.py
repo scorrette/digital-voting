@@ -20,7 +20,7 @@ def login():
 	cursor.execute(query, employee_id)
 	records = cursor.fetchone()
 
-	while records == NULL:
+	while records == None:
 		print("Employee ID is not in the system. Please retype it.")
 		employee_id = input("Enter Employee ID: ")
 
