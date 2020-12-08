@@ -85,9 +85,3 @@ def mainTest():
     auth_cipher = PKCS1_OAEP.new(new_key)
     plainVote = auth_cipher.decrypt(cipherVote_2)
     print(plainVote.decode("utf-8"), "\n")
-
-def main():
-    print("lol")
-
-if __name__ == "__main__":
-    main()
