@@ -22,7 +22,14 @@ class Authenticator:
         encryptedVoteList = ""
         deliminator = ",,,,,".encode("utf-8")
         auth_cipher = PKCS1_OAEP.new(self.auth_private_key)
-        plainMessage = auth_cipher.decrypt(messages)
+
+        # plainMessage = auth_cipher.decrypt(messages)
+        chunk_length = 64
+        chunks = [messages[i:i+chunk_length] for i in range(0, len(messages), chunk_length)]
+        plainMessage = ""
+        for chunk in chunks:
+            plainMessage = plainMessage + auth_cipher.decrypt(chunk)
+            
         [id_byte, cipherVote_2] = plainMessage.split(b',,,,,')
         userID = id_byte.decode("utf-8")
         mydb = mysql.connector.connect(
