@@ -6,7 +6,7 @@ from Crypto.Cipher import PKCS1_OAEP
 from base64 import b64encode,b64decode
 
 def mainScreen(FirstName,username):
-    print("Welcome",FirstName)
+    print(f'Welcome {FirstName}!')
     candidateList = pd.DataFrame(getCandidates(),columns=['id','FirstName','LastName','Position'])
     positionList = getPosition()
     voteList = []
@@ -87,5 +87,3 @@ def encryptFinal(votes):
     encrypted_ballot = counter_cipher.encrypt(votes)
     with open("auth_ballot.ballot", "wb") as f:
         f.write(encrypted_ballot)
-
-mainScreen("emo66","123")

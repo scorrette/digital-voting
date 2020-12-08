@@ -1,0 +1,4 @@
+*.pem
+*.ballot
+*.txt
+__pycache__
