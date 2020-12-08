@@ -33,6 +33,9 @@ if choice == 2:
     eid, f_name = login.login()
     mainScreen.mainScreen(f_name, eid)
 
+    authenticator = authenticatorFile.Authenticator()
+    authenticator.authenticate()
+
     choice += 1
 
 if choice == 3:
