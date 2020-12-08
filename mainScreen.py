@@ -84,6 +84,11 @@ def encryptVotes(userID,votes):
 def encryptFinal(votes):
     authenticator_public_key = RSA.importKey(open('auth_public_key.pem').read())
     counter_cipher = PKCS1_OAEP.new(authenticator_public_key)
-    encrypted_ballot = counter_cipher.encrypt(votes)
+    # encrypted_ballot = counter_cipher.encrypt(votes)
+    chunk_length = 64
+    chunks = [votes[i:i+chunk_length] for i in range(0, len(votes), chunk_length)]
+    encrypted_ballot = b''
+    for chunk in chunks:
+        encrypted_ballot = encrypted_ballot + counter_cipher.encrypt(chunk)
     with open("auth_ballot.ballot", "wb") as f:
         f.write(encrypted_ballot)
